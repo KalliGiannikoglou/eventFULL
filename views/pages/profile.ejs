@@ -2,49 +2,7 @@
 <html lang="en">
 
     <head>
-        <title>EventFULL</title>
-        
-        <nav class="navbar navbar-dark fixed-top" style="background-color: #7ccba2cb; ">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/home">EventFULL</a>
-
-                <form class="d-flex mt-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Αναζητήστε Εκδηλώσεις, Άτομα, Τοποθεσίες" aria-label="Search" style="width: 500px">
-                    <button class="btn btn-success" type="submit" style="background-color:#16874bf6">ΟΚ</button>
-                </form>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" style="background-color:#16874bf6">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-                <div class="offcanvas-header" style="background-color: #7ccba293; ">
-                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">MENU</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body" style="background-color: #7ccba293; ">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/home">Αρχική σελίδα</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/profile">Το προφίλ μου</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/">Αποσύνδεση</a>
-                    </li>
-                    </ul>
-                    
-                </div>
-            </div>
-        </nav>    
-
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-            crossorigin="anonymous"></script>
-    
+        <%- include("header.ejs"); %>
     </head>
     
     <body style="background-image: url()">
@@ -52,35 +10,59 @@
         <p style=" justify-content: center; margin-top: 100px; display: flex; font-weight: bold; font-size: 40px; ">
            Το προφίλ σας
         </p>  
-    
+
         <div class="container text-center">
             <div class="row">
                 <div class="col">
                     <div style="display: flex; justify-content: center; margin-top: 50px; ">
-                        <form class="row g-3">
+                        <form class="row g-3"  action="/editProfilePhoto" method="POST" encType="multipart/form-data"> 
                             <div class="text-center">
-                                <img src="..." class="rounded" alt="...">
+                                <img src="../<%=image%>" style="width:200px;height:200px;"/>
                             </div>
-                            <div class="col-12">
-                            <label  for="floatingTextarea2" class="form-label"></label>
-                            <input type="text" class="form-control" id="inputAddress" placeholder="Όνομα Χρήστη">
-                            </div>
-                            <div class="form-floating">
-                                <textarea class="form-control" placeholder="Bio" id="floatingTextarea2" style="height: 100px"></textarea>
-                                <label for="floatingTextarea2">Βιογραφικό</label>
-                            </div>
-                            <div class="form-floating">
-                                <textarea class="form-control" placeholder="SocialMedia" id="floatingTextarea2" style="height: 80px"></textarea>
-                                <label for="floatingTextarea2">Άλλοι λογαριασμοί</label>
+                            <div style="text-align: left;">
+                                <label for="upload" class="col-form-label" style="font-weight: bold;">Ανεβάστε φωτογραφία</label>
+                                <input type="file" name="sampleFile" accept="image/*" />
+                                <input type="submit" class="btn btn-primary" style="background-color:#16874bf6" onclick="profileRedirect('/profile')">                                
                             </div>
 
-                            <div style="display: flex; justify-content: end;">
-                            <button type="submit" class="btn btn-success"style="background-color: #16874bf6">Εντάξει</button>
+                            <div class="col-auto">
+
+                                <label for="username" class="col-form-label" style="font-weight: bold;">Όνομα Χρήστη</label>
+                            </div>
+                            <div class="col-12">
+                                <input id="username" class="form-control" type="text" value=<%=username%> aria-label="readonly input example" readonly>
+                            </div>
+                            <div class="col-auto">
+                                <label for="bio" class="col-form-label" style="font-weight: bold;">Βιογραφικό</label>
+                            </div>
+                            <div class="form-floating">
+                                <textarea type="text" class="form-control" placeholder="Bio"  id="bio" style="height: 100px; resize: none;"><%=bio%> </textarea>
+                            </div>
+                            <div class="col-auto">
+                                <label for="username" class="col-form-label" style="font-weight: bold;">Άλλοι λογαριασμοί</label>
+                            </div>
+                            <div class="form-floating">
+                                <textarea id="socialMedia" class="form-control" placeholder="SocialMedia" style="height:80px; resize:none"><%=social_media%></textarea>
+                            </div>
+                            <div style="display: flex; justify-content: end; margin-bottom: 30px;">
+                                <button id="editBtn" class="btn btn-success" type="button" onclick="editProfileData()" style="background-color:#16874bf6">Εντάξει</button>
+                            </div>
+                            <div id='updateAlert' class="alert alert-success" role="alert" style="width: 60%; text-align:left; display: none;">
+                               Τα στοιχεία σας ενημερώθηκαν με επιτυχία!
                             </div>
                         </form>
                     </div>
-              </div>
-              <div class="col">
+                </div>
+                <div class="col">
+                    <div style="display: flex; justify-content: end; margin-top: 30px;" class="d-grid gap-2 d-md-block">
+                        <a href="/newevent">
+                        <button type="submit" class="btn btn-success"style="background-color:#16874bf6">+Νέα εκδήλωση</button>
+                        </a>
+                        <a href="/newlocation">
+                            <button type="submit" class="btn btn-success"style="background-color:#16874bf6">+Νέα τοποθεσία</button>
+                        </a>
+                    </div>
+                    
                     <div style="display: flex; justify-content: center; margin-top: 40px; ">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
@@ -90,223 +72,325 @@
                             <a class="nav-link active" aria-current="page" onClick="visibility('Contacts', 'Event', 'FriendRequests')">Επαφές</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" onClick="visibility('FriendRequests','Contacts', 'Event')">Αιτήματα Φιλίας</a>
+                                <a class="nav-link active" aria-current="page" onClick="visibility('FriendRequests','Contacts', 'Event')">Αιτήματα Ακολούθησης</a>
                             </li>
                         </ul>
                     </div>
                     <div id="Event" >
-
-                        
-                        <div style="display: flex; justify-content: center; margin-top: 40px; ">
+                        <div style="display: flex; justify-content: center; margin-top: 40px;">
                             <ul class="nav nav-tabs">
                                 <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Ενδιαφέρεστε</a>
+                                <a class="nav-link active" aria-current="page" onClick="eventVisibility('InterestNew','InterestOld','OrganiseNew', 'OrganiseOld')">Ενδιαφέρεστε</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">Είχατε ενδιαφερθεί</a>
+                                    <a class="nav-link active" aria-current="page" onClick="eventVisibility('InterestOld','InterestNew','OrganiseNew', 'OrganiseOld')">Ενδιαφερθήκατε</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">Οργανώνετε</a>
+                                    <a class="nav-link active" aria-current="page" onClick="eventVisibility('OrganiseNew', 'InterestOld','InterestNew', 'OrganiseOld')">Οργανώνετε</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">Είχατε Οργανώσει</a>
+                                    <a class="nav-link active" aria-current="page" onClick="eventVisibility('OrganiseOld', 'InterestOld','InterestNew','OrganiseNew')">Οργανώσατε</a>
                                 </li>
                             </ul>
                         </div>
-                        <div style="display: flex; justify-content: end; margin-top: 30px;">
-                            <button type="submit" class="btn btn-success"style="background-color:#16874bf6">+Νέα εκδήλωση</button>
-                        </div>
                         
+                        <div id = "InterestNew" style="margin-top: 50px">
+                            <% for(var i=0; i<InterestedNew.length; i++) {%>
+                                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                                    <div class="row g-0" id = "<%=InterestedNew[i].event_id%>" onclick="eventRedirect(this.id)">
+                                        <div class="col-md-4">
+                                            <img src="../<%=InterestedNew[i].event_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center; margin-top: 25px;">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%=InterestedNew[i].event_title%></h5>
+                                                <p class="card-text"><%=InterestedNew[i].description%></p>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item" label for="date">
+                                                    <date>Ημερομηνία: <%=InterestedNew[i].date.toDateString()%></date>
+                                                </li>
+                                                <li class="list-group-item" for="time">
+                                                    <time>Ώρα: <%=InterestedNew[i].time%></time>
+                                                <li class="list-group-item">Τοποθεσία: <%=InterestedNew[i].location_name%></li>                    
+                                                <li class="list-group-item">Διοργανωτής: <%=InterestedNew[i].organiser_name%></li>
+                                            </ul>                                           
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            <% } %>
+                        </div>
 
-                        <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-top: 40px;margin-bottom: 10px;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="https://www.paidikihara.gr/wp-content/uploads/2020/01/party-18xronon.jpg" class="img-fluid rounded-start" alt="...">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Πάρτυ</h5>
-                                        <p class="card-text">Ένα μοναδικό πάρτυ</p>
+                        <div id = "InterestOld" style="margin-top: 50px; display: none;">
+                            <% for(var i=0; i<InterestedOld.length; i++) {%>
+                                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                                    <div class="row g-0" id = "<%=InterestedOld[i].event_id%>" onclick="eventRedirect(this.id)">
+                                        <div class="col-md-4">
+                                            <img src="../<%=InterestedOld[i].event_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center; margin-top: 25px;">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%=InterestedOld[i].event_title%></h5>
+                                                <p class="card-text"><%=InterestedOld[i].description%></p>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item" label for="date">
+                                                    <date>Ημερομηνία: <%=InterestedOld[i].date.toDateString()%></date>
+                                                </li>
+                                                <li class="list-group-item" for="time">
+                                                    <time>Ώρα: <%=InterestedOld[i].time%></time>
+                                                <li class="list-group-item">Τοποθεσία: <%=InterestedOld[i].location_name%></li>                    
+                                                <li class="list-group-item">Διοργανωτής: <%=InterestedOld[i].organiser_name%></li>
+                                            </ul>
+                                        </div>
+                                        
                                     </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item" label for="date">
-                                            <input type="date" class="form-control" id="date">
-                                        </li>
-                                        <li class="list-group-item" for="time">
-                                            <input type="time" class="form-control" id="time"></li>
-                                        <li class="list-group-item">Τοποθεσία</li>                    
-                                        <li class="list-group-item">Διοργανωτής</li>
-                                    </ul>
-                                    <div class="card-body">
-                                        <a href="/eventprofile" class="stretched-link"></a>
-                                    </div>
                                 </div>
-                            </div>
+                            <% } %>
                         </div>
-            
-                        <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="https://www.maxmag.gr/wp-content/uploads/2020/11/a9495a6d897c714db07320d3bba4eb87.jpg" class="img-fluid rounded-start" alt="...">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Θεατρική Παράσταση</h5>
-                                        <p class="card-text">Μια σπαρταριστή κωμωδία </p>
+
+                        <div id = "OrganiseNew" style="margin-top: 50px; display: none;">
+                            <% for(var i=0; i<OrganisedNew.length; i++) {%>
+                                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                                    <div class="row g-0" id = "<%=OrganisedNew[i].event_id%>" onclick="eventRedirect(this.id)">
+                                        <div class="col-md-4">
+                                            <img src="../<%=OrganisedNew[i].event_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center; margin-top: 25px;">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%=OrganisedNew[i].event_title%></h5>
+                                                <p class="card-text"><%=OrganisedNew[i].description%></p>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item" label for="date">
+                                                    <date>Ημερομηνία: <%=OrganisedNew[i].date.toDateString()%></date>
+                                                </li>
+                                                <li class="list-group-item" for="time">
+                                                    <time>Ώρα: <%=OrganisedNew[i].time%></time>
+                                                <li class="list-group-item">Τοποθεσία: <%=OrganisedNew[i].location_name%></li>                    
+                                                <li class="list-group-item">Διοργανωτής: <%=OrganisedNew[i].organiser_name%></li>
+                                            </ul>                                         
+                                        </div>
+                                        
                                     </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item" label for="date">
-                                            <input type="date" class="form-control" id="date">
-                                        </li>
-                                        <li class="list-group-item" for="time">
-                                            <input type="time" class="form-control" id="time"></li>
-                                        <li class="list-group-item">Τοποθεσία</li>                    
-                                        <li class="list-group-item">Διοργανωτής</li>
-                                    </ul>
-                                    <div class="card-body">
-                                        <a href="/eventprofile" class="stretched-link"></a>
-                                    </div>
                                 </div>
-                            </div>
+                            <% } %>
                         </div>
-            
-                        <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="https://scontent.fath3-4.fna.fbcdn.net/v/t39.30808-6/282189416_1122696374957149_6749716041695694468_n.jpg?stp=dst-jpg_p526x395&_nc_cat=100&ccb=1-7&_nc_sid=0debeb&_nc_ohc=U97H7Fyv-BQAX_uDaU_&_nc_ht=scontent.fath3-4.fna&oh=00_AfAgld7FDgu2yC7hqvGKMBOdhDplthIrvz5f11Lno__E9w&oe=636CBDEC" class="img-fluid rounded-start" alt="...">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Πάρτυ ΜΗΧ ΜΗΧ</h5>
-                                        <p class="card-text">Ένα μοναδικό πάρτυ</p>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item" label for="date">
-                                            <input type="date" class="form-control" id="date">
-                                        </li>
-                                        <li class="list-group-item" for="time">
-                                            <input type="time" class="form-control" id="time"></li>
-                                        <li class="list-group-item">Τοποθεσία</li>                    
-                                        <li class="list-group-item">Διοργανωτής</li>
-                                    </ul>
-                                    <div class="card-body">
-                                        <a href="/eventprofile" class="stretched-link"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="https://www.efsyn.gr/sites/default/files/styles/default/public/2021-08/synavlia_klassikis.jpg?itok=nvs7k-dF" class="img-fluid rounded-start" alt="...">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Συναυλία</h5>
-                                        <p class="card-text">Αφιέρωμα στην κλασσική μουσική</p>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item" label for="date">
-                                            <input type="date" class="form-control" id="date">
-                                        </li>
-                                        <li class="list-group-item" for="time">
-                                            <input type="time" class="form-control" id="time"></li>
-                                        <li class="list-group-item">Τοποθεσία</li>                    
-                                        <li class="list-group-item">Διοργανωτής</li>
-                                    </ul>
-                                    <div class="card-body">
-                                        <a href="/eventprofile" class="stretched-link"></a>
+
+                        <div id = "OrganiseOld" style="margin-top: 50px; display: none;">
+                            <% for(var i=0; i<OrganisedOld.length; i++) {%>
+                                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                                    <div class="row g-0" id = "<%=OrganisedOld[i].event_id%>" onclick="eventRedirect(this.id)">
+                                        <div class="col-md-4">
+                                            <img src="../<%=OrganisedOld[i].event_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center; margin-top: 25px;">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%=OrganisedOld[i].event_title%></h5>
+                                                <p class="card-text"><%=OrganisedOld[i].description%></p>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item" label for="date">
+                                                    <date>Ημερομηνία: <%=OrganisedOld[i].date.toDateString()%></date>
+                                                </li>
+                                                <li class="list-group-item" for="time">
+                                                    <time>Ώρα: <%=OrganisedOld[i].time%></time>
+                                                <li class="list-group-item">Τοποθεσία: <%=OrganisedOld[i].location_name%></li>                    
+                                                <li class="list-group-item">Διοργανωτής: <%=OrganisedOld[i].organiser_name%></li>
+                                            </ul>
+                                        </div>                                        
                                     </div>
                                 </div>
-                            </div>
+                            <% } %>
                         </div>
 
                     </div>
+
                     <div id="Contacts" style= "display: none;">
                         <div style="display: flex; justify-content: center; margin-top: 40px; ">
                             <ul class="nav nav-tabs">
                                 <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Ακόλουθοι</a>
+                                    <a class="nav-link active" aria-current="page" onClick="followVisibility('follower','follows');">Ακόλουθοι</a>
                                 </li>
                                 <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Ακολουθείτε</a>
+                                    <a class="nav-link active" aria-current="page" onClick="followVisibility('follows', 'follower')">Ακολουθείτε</a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-top: 10px;margin-bottom: 10px;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="https://scontent.fath3-4.fna.fbcdn.net/v/t39.30808-6/245484843_4460178967396196_2615077597583406743_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Q3f8rq-kiX4AX_g1pFU&_nc_ht=scontent.fath3-4.fna&oh=00_AfDwiQmYnEOHJxOVw2HkYj8f_mEioFGme38pBOe3oaM6yA&oe=636D6142" class="rounded" alt="..." style="width:60px;height:60px;">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Kalli_Gian</h5>
-                                        <a href="/profileOther" class="stretched-link"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-top: 10px;margin-bottom: 10px;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="https://scontent.fath3-4.fna.fbcdn.net/v/t31.18172-8/13086961_1713749108863486_6030135167580183717_o.jpg?_nc_cat=107&ccb=1-7&_nc_sid=174925&_nc_ohc=T_2HvUhbHsMAX-gIWbS&_nc_oc=AQkWbcBpg1wlAUOlB720AL2ES6sAX8eUKISxZ86rdI2OIFVCT3joz8KsnUpGgew45-uD1tetkPKMkh2cU5Axr2nQ&_nc_ht=scontent.fath3-4.fna&oh=00_AfBGGm1TeaLiF--jOU-O-wQ5N6QuAYtHCetCo_OAR_haSQ&oe=638F7622" class="rounded" alt="..." style="width:60px;height:60px;">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Christos_Pantazopoulos</h5>
-                                        <a href="/profileOther" class="stretched-link"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-                    <div id="FriendRequests" style= "display: none;">
-                        <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-top: 10px;margin-bottom: 10px;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="https://scontent.fath3-4.fna.fbcdn.net/v/t39.30808-6/245484843_4460178967396196_2615077597583406743_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Q3f8rq-kiX4AX_g1pFU&_nc_ht=scontent.fath3-4.fna&oh=00_AfDwiQmYnEOHJxOVw2HkYj8f_mEioFGme38pBOe3oaM6yA&oe=636D6142" class="rounded" alt="..." style="width:100px;height:100px;">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title" >Kalli_Gian</h5>
-                                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <button type="button" class="btn btn-success" style="font-size: 12px;">Αποδοχή</button>
-                                            <button type="button" class="btn btn-danger" style="font-size: 12px;">Απόρριψη</button>
+                        <div id='follower' style="margin-top: 50px">
+                            
+                            <% for(var i=0; i<followed.length; i++) {%>
+                                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                                    <div class="row g-0" id = "<%=followed[i].fk1_user_id%>" onclick="contactRedirect(this.id)">
+                                        
+                                        <div class="col-md-4">
+                                            <img src="../<%=followed[i].user_photo%>" class="img-fluid rounded-start" alt="..."style="width:70px;height:70px;">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%=followed[i].username1%></h5>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            <% } %>
                         </div>
 
-                        <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-top: 10px;margin-bottom: 10px;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="https://scontent.fath3-4.fna.fbcdn.net/v/t31.18172-8/13086961_1713749108863486_6030135167580183717_o.jpg?_nc_cat=107&ccb=1-7&_nc_sid=174925&_nc_ohc=T_2HvUhbHsMAX-gIWbS&_nc_oc=AQkWbcBpg1wlAUOlB720AL2ES6sAX8eUKISxZ86rdI2OIFVCT3joz8KsnUpGgew45-uD1tetkPKMkh2cU5Axr2nQ&_nc_ht=scontent.fath3-4.fna&oh=00_AfBGGm1TeaLiF--jOU-O-wQ5N6QuAYtHCetCo_OAR_haSQ&oe=638F7622" class="rounded" alt="..." style="width:100px;height:100px;">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Christos_Pantazopoulos</h5>
-                                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <button type="button" class="btn btn-success" style="font-size: 12px;">Αποδοχή</button>
-                                            <button type="button" class="btn btn-danger" style="font-size: 12px;">Απόρριψη</button>
+                        <div id='follows' style="margin-top: 50px; display: none;" >
+                            
+                            <% for(var i=0; i<follows.length; i++) {%>
+                                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                                    <div class="row g-0" id = "<%=follows[i].fk2_user_id%>" onclick="contactRedirect(this.id)">
+                                        
+                                        <!-- <div class="col-md-4">
+                                            <img src="https://www.paidikihara.gr/wp-content/uploads/2020/01/party-18xronon.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div> -->
+                                        <div class="col-md-4">
+                                            <img src="../<%=follows[i].user_photo%>" class="img-fluid rounded-start" alt="..."style="width:70px;height:70px;">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%=follows[i].username2%></h5>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>     
+                            <% } %>
+                        </div>
                     </div>
+
+                    <div id="FriendRequests" style= "display: none;">
+                        <% for(var i=0; i<requests.length; i++) {%>
+                            <div class="card mb-3" style="max-width: 700px;margin: auto;float: none;margin-bottom: 10px; margin-top: 30px;">
+                                <div class="row g-0" id="<%=requests[i].fk1_user_id%>">                                    
+                                   
+                                    <div class="col-md-4" id="img">
+                                        <img src="../<%=requests[i].user_photo%>" class="img-fluid rounded-start" alt="..."style="width:100px;height:100px;">
+                                    </div>
+                                    <div class="col-md-8 card-body">
+                                      
+                                            <h5 class="card-title"><%=requests[i].username1%></h5>
+                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                <button type="button" class="btn btn-success" style="font-size: 12px;" value="<%= requests[i].username1%>" onclick="acceptRequest(this.value)">Αποδοχή</button>
+                                                <button type="button" class="btn btn-danger" style="font-size: 12px;" value="<%= requests[i].username1%>" onclick="removeRequest(this.value)">Απόρριψη</button>
+                                            </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %> 
+                        <div id='acceptAlert' class="alert alert-success" role="alert" style="width: 60%; text-align:left; display: none;">
+                            Το αίτημα έγινε αποδεκτό! 
+                        </div>
+                        <div id='declineAlert' class="alert alert-danger" role="alert" style="width: 60%; text-align:left; display: none;">
+                            Το αίτημα απορρίφθηκε! 
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
 
     <script>
+        
+        var bio = document.getElementById("bio")
+        var socialMedia = document.getElementById("socialMedia")
+        var editBtn = document.getElementById("editBtn")
+  
+
+        function editProfileData(){
+            document.getElementById('updateAlert').style.display="block";
+            var data={
+                //"username": username.value,
+                "bio": bio.value,
+                "socialMedia": socialMedia.value
+            }
+            
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "/editProfile";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(data.email + ", " + data.username + ", " + data.password);
+                }
+            };
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON);
+            
+        };
+
+        function acceptRequest(username){
+            document.getElementById('acceptAlert').style.display="block";
+            var data={               
+                "req_username": username
+            }
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "/acceptrequest";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(data.email + ", " + data.username + ", " + data.password);
+                }
+            };
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON);
+        };
+
+        function removeRequest(username){
+            document.getElementById('declineAlert').style.display="block";
+            var data={
+                "req_username": username
+            }
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "/removerequest";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(data.email + ", " + data.username + ", " + data.password);
+                }
+            };
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON);
+        };
 
         function visibility(idVisible, idInvisible1, idInvisible2){
             document.getElementById(idVisible).style.display="block";
             document.getElementById(idInvisible1).style.display="none";
             document.getElementById(idInvisible2).style.display="none";
+        } 
+
+        function eventVisibility(idVisible, idInvisible1, idInvisible2, idInvisible3){
+            document.getElementById(idVisible).style.display="block";
+            document.getElementById(idInvisible1).style.display="none";
+            document.getElementById(idInvisible2).style.display="none";
+            document.getElementById(idInvisible3).style.display="none";
+        } 
+
+        function followVisibility(idVisible, idInvisible){
+            document.getElementById(idVisible).style.display="block";
+            document.getElementById(idInvisible).style.display="none";
+        } 
+
+
+        function eventRedirect(arg){
+            location.href = "/eventprofile/".concat(arg);
+        };
+
+        function contactRedirect(arg){
+            console.log(arg)
+            location.href = "/profileOther/".concat(arg);
+        };
+
+        function profileRedirect(arg){
+            setTimeout( function() { window.location = arg }, 500 );
         }
+
     </script>
-    
 </html>

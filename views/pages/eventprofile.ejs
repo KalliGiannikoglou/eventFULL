@@ -1,51 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <title>EventFULL</title>
-    
-    <nav class="navbar navbar-dark fixed-top" style="background-color: #7ccba2cb; ">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/home">EventFULL</a>
-
-            <form class="d-flex mt-3" role="search">
-                <input class="form-control me-2" type="search" placeholder="Αναζητήστε Εκδηλώσεις, Άτομα, Τοποθεσίες" aria-label="Search" style="width: 500px">
-                <button class="btn btn-success" type="submit" style="background-color:#16874bf6">ΟΚ</button>
-            </form>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" style="background-color:#16874bf6">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-            <div class="offcanvas-header" style="background-color: #7ccba293; ">
-                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">MENU</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body" style="background-color: #7ccba293; ">
-                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/home">Αρχική σελίδα</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/profile">Το προφίλ μου</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/">Αποσύνδεση</a>
-                </li>
-                </ul>
-                
-            </div>
-        </div>
-    </nav>    
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-        crossorigin="anonymous"></script>
-
-</head>
+    <head>
+        <%- include("header.ejs"); %>
+    </head>
     
     <body style="background-image: url()">
         
@@ -56,152 +14,428 @@
         <div class="container text-center">
             <div class="row">
                 <div class="col">
-                    <div style="display: flex; justify-content: center; margin-top: 50px; ">
-                        <form class="row g-3">
+                    <div style="display: flex; flex-direction: column; justify-content: center; margin-top: 50px; ">
+                        <form action="/editEventPhoto/<%=event.event_id%>" method="POST" encType="multipart/form-data"> 
+                            
                             <div class="text-center">
-                                <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/512/external-party-edm-flaticons-lineal-color-flat-icons.png" class="rounded" alt="..."style="width:200px;height:200px;">
+                                <img src="../<%=event.event_photo%>" style="width:300px;height:200px;"/>
                             </div>
+                            <%if(flagOrganiser == 1){ %>
+                                <div style="text-align: left;">
+                                    <label for="upload" class="col-form-label" style="font-weight: bold;">Ανεβάστε φωτογραφία</label>
+                                    <input type="file" name="sampleFile" accept="image/*" />
+                                    <input id="photoBtn" type="submit" class="btn btn-primary" style="background-color:#16874bf6" onclick="eventRedirect('/eventprofile/<%=event.event_id%>')">                                
+                                </div>
+                            <%}%>                            
+                       
                             <div class="col-12">
-                                <label  for="floatingTextarea2" class="form-label"></label>
-                                <input type="text" class="form-control" id="inputAddress" placeholder="Τίτλος Εκδήλωσης">
-                                <label  for="floatingTextarea2" class="form-label"></label>
-                                <input type="text" class="form-control" id="inputAddress" placeholder="Διοργανωτής">
+                                <label  for="titleEvent" class="form-label" ></label>                                
+                                <input type="text" class="form-control" id="titleEvent" placeholder="Τίτλος Εκδήλωσης" value= "<%=event.event_title%>" readonly>
+                                <label  for="organiser" class="form-label"></label>
+                                    <input type="text" class="form-control" id="organiser" placeholder="Διοργανωτής" value= "<%=event.organiser_name%>" readonly>
                                 </div>
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Bio" id="floatingTextarea2" style="height: 100px"></textarea>
-                                <label for="floatingTextarea2">Περιγραφή</label>
+                                <label for="description" class="form-label" ></label>                                
+                                <%if(flagOrganiser == 1){ %>
+                                    <textarea type="text" class="form-control" placeholder="Bio"  id="description" style="height: 150px; resize: none; margin-top: 20px"><%=event.description%> </textarea>
+                                <%}else{%>
+                                    <textarea type="text" class="form-control" placeholder="Bio" style="height: 150px; resize: none; margin-top: 20px;margin-top: 20px" readonly><%=event.description%> </textarea>
+                                <%}%>
                             </div>
-                            <div class="col-md-5">
-                              <label for="inputCity" class="form-label"></label>
-                              <input type="text" class="form-control" id="inputCity" placeholder="Τοποθεσία">
-                            </div>
-                            <div class="col-md-4">
-                              <label for="inputZip" class="form-label"></label>
-                              <input type="date" class="form-control" id="inputZip">
-                            </div>
-                            <div class="col-md-3">
-                              <label for="inputZip" class="form-label"></label>
-                              <input type="time" class="form-control" id="inputZip">
-                            </div>
-                            <p style="text-align: left;"> 
-                              <a href="/locationprofile" class="link-success"> Πληροφορίες τοποθεσίας </a>
-                            </p>
 
-                            <div class="d-grid gap-2 d-md-block">
-                                <button type="submit" class="btn btn-success"style="background-color: #16874bf6">Ενδιαφέρομαι</button>
+                            <div>
+                                <table class="table" style="width:80%; margin-right:40px; margin-top:30px; margin-bottom: 20px;">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" style="width:20px"></th>
+                                        <th scope="col" style="width:60px">Κατηγορίες</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% if(event.z_cinema){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Κινηματογράφος</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(event.z_theatre){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Θέατρο</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(event.z_dance){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Χορός</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(event.z_music){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Μουσική</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(event.z_exhibition){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Έκθεση</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(event.z_kids){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Κατάλληλο για παιδία</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(event.z_food){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Φαγητό</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(event.z_drinks){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Ποτό</td>
+                                        </tr>
+                                    <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col-md-5">
+                                    <label for="locationEvent" class="form-label"></label>
+                                    <%if(flagOrganiser == 1){ %>
+                                        <div class="dropdown">
+                                            <div class="btn-group dropend">
+                                                <button type="button" id="selectBtn" class="btn btn-secondary dropdown-toggle" value= "<%=event.location_name%>" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: rgba(96, 139, 116, 0.944);">
+                                                    <%=event.location_name%>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="locationEvent" >
+                                                    <% for(var j=0; j <  locations.length; j++) {%>
+                                                        <li><a class="dropdown-item" href="#" id="locationMenu" val="<%=locations[j].location_name%>" loc_id="<%=locations[j].location_id%>" onclick="getUsrOpt(this.getAttribute('val'), this.getAttribute('loc_id'))"><%=locations[j].location_name%></a></li>
+                                                    <% } %>                    
+                                                </ul>
+                                            </div>
+                                        </div>                               
+                                    <%}else{%>                                        
+                                        <input type="text" class="form-control" id="locationEvent" placeholder="Τοποθεσία" value= "<%=event.location_name%>" readonly>
+                                    <%}%>                               
+                                </div>
+                                <div class="col-md-4">                                
+                                    <label for="dateEvent" class="form-label"></label>
+                                    <%if(flagOrganiser == 1){ %>
+                                        <input type="text" class="form-control" id="dateEvent" value= "<%=event.date.toDateString()%>" >                               
+                                    <%}else{%>                                        
+                                        <input type="text" class="form-control" value= "<%=event.date.toDateString()%>" readonly>
+                                    <%}%>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="timeEvent" class="form-label"></label>                                
+                                    <%if(flagOrganiser == 1){ %>
+                                        <input type="text" class="form-control" id="timeEvent"  value= "<%=event.time%>">                                    
+                                    <%}else{%>
+                                        <input type="text" class="form-control" value= "<%=event.time%>" readonly>
+                                    <%}%>
+                                </div>
+                                <div style="margin-top:15px; margin-bottom: 10px; text-align: left;">
+                                    <a id="<%=event.fk1_location_id%>" onclick="locationRedirect(this.id)" class="link-success" style="text-align:left"> Πληροφορίες τοποθεσίας </a>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="row">
+                                <%if(flagOrganiser == 1){ %>
+                                    <div style="display: flex; justify-content: end;">
+                                        <button id="editBtn" loc_id="<%=event.fk1_location_id%>" event_id="<%=event.event_id%>" class="btn btn-success" type="button" onclick="editEventData(this.getAttribute('loc_id'))" style="background-color:#16874bf6">Ανανέωση</button>
+                                    </div>      
+                                <%}%>
+                                <%if(flagOrganiser == 1){ %>
+                                    <div style="display: flex; justify-content: start; margin-bottom: 20px;">
+                                        <button id="deleteBtn" event_id="<%=event.event_id%>" class="btn btn-success" type="button" onclick="deleteEvent(this.getAttribute('event_id'))" style="background-color:#8e1313f6">Διαγραφή Εκδήλωσης</button>
+                                    </div>      
+                                <%}%>
+    
+                            </div>                        
+  
+                            <div id='updateAlert' class="alert alert-success" role="alert" style="width: 100%; text-align:left; display: none">
+                                Τα στοιχεία της εκδήλωσης ενημερώθηκαν με επιτυχία!
+                            </div>
+                            <div id='deleteAlert' class="alert alert-success" role="alert" style="width: 70%; text-align:left; display: none">
+                                Η εκδήλωση διαγράφηκε με επιτυχία!
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-block" style="margin-bottom: 20px;">
+                                <button id="<%=event.event_id%>" onclick="interestedBtn(this.id)" type="button" class="btn btn-success"style="background-color: #16874bf6">Ενδιαφέρομαι</button>
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"style="background-color: #16874bf6">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color: #16874bf6">
                                   Προσκαλέστε
                                 </button>
 
                                 <!-- Modal -->
-                              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                     <h5 class="modal-title" id="staticBackdropLabel">Προσκαλέστε φίλους</h5>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                      <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-top: 10px;margin-bottom: 10px;">
-                                        <div class="row g-0">
-                                            <div class="col-md-4">
-                                                <img src="https://scontent.fath3-4.fna.fbcdn.net/v/t39.30808-6/245484843_4460178967396196_2615077597583406743_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Q3f8rq-kiX4AX_g1pFU&_nc_ht=scontent.fath3-4.fna&oh=00_AfDwiQmYnEOHJxOVw2HkYj8f_mEioFGme38pBOe3oaM6yA&oe=636D6142" class="rounded" alt="..." style="width:100px;height:100px;">
+                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">Προσκαλέστε φίλους</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="col-md-8">
-                                                <div class="card-body">
-                                                    <h5 class="card-title" >Kalli_Gian</h5>
-                                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                      <button class="btn btn-success" type="button" style="background-color:#16874bf6;font-size: 12px;">Προσκαλέστε</button>
+                                            <div class="modal-body">
+                                                <% for(var i=0; i<invite.length; i++) {%>
+                                                    <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                                                        <div class="row g-0"> 
+                                                            <div class="col-md-4">
+                                                                <img src="../<%=invite[i].user_photo%>" style="width:80px;height:80px;"/>
+                                                            </div>
+                                                            <div class="col-md-8" id=<%=invite[i].fk2_user_id%> val=<%=event.event_id%> onclick="inviteFriend(this.id, this.getAttribute('val'))">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title"><%=invite[i].username2%></h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                <% } %>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h5 class="modal-title" id="staticBackdropLabel" style="text-align: left; margin-bottom: 10px;">Έχετε ήδη προσκαλέσει</h5>
+                                                <% for(var i=0; i<notInvite.length; i++) {%>
+                                                    <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px; background-color: rgb(218, 204, 204);">
+                                                        <div class="row g-0">
+                                                            <div class="col-md-4">
+                                                                <img src="../<%=notInvite[i].user_photo%>" style="width:80px;height:80px;"/>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title"><%=notInvite[i].username2%></h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <% } %>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #16874bf6">Κλείσιμο</button>
                                             </div>
                                         </div>
                                     </div>
-            
-                                    <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-top: 10px;margin-bottom: 10px;">
-                                        <div class="row g-0">
-                                            <div class="col-md-4">
-                                                <img src="https://scontent.fath3-4.fna.fbcdn.net/v/t31.18172-8/13086961_1713749108863486_6030135167580183717_o.jpg?_nc_cat=107&ccb=1-7&_nc_sid=174925&_nc_ohc=T_2HvUhbHsMAX-gIWbS&_nc_oc=AQkWbcBpg1wlAUOlB720AL2ES6sAX8eUKISxZ86rdI2OIFVCT3joz8KsnUpGgew45-uD1tetkPKMkh2cU5Axr2nQ&_nc_ht=scontent.fath3-4.fna&oh=00_AfBGGm1TeaLiF--jOU-O-wQ5N6QuAYtHCetCo_OAR_haSQ&oe=638F7622" class="rounded" alt="..." style="width:100px;height:100px;">
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Christos_Pantazopoulos</h5>
-                                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                        <button class="btn btn-success" type="button" style="background-color:#16874bf6;font-size: 12px;">Προσκαλέστε</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>     
-        
-                                    </div>
-                                    <div class="modal-footer">
-                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Κλείσιμο</button>
-
-                                    </div>
-                                  </div>
                                 </div>
-                              </div>
                             </div>
-            
-                            
+                            <div id='interestedAlert' class="alert alert-success" role="alert" style="width: 80%; text-align:left; display: none;">
+                                Προστέθηκε στις εκδηλώσεις που σας ενδιαφέρουν! 
+                            </div> 
+                            <div id='inviteAlert' class="alert alert-success" role="alert" style="width: 80%; text-align:left; display: none;">
+                                Προσκαλέσατε με επιτυχία! 
+                            </div> 
+                        </form>
+                        <form>
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Bio" id="floatingTextarea2" style="height: 100px"></textarea>
-                                <label for="floatingTextarea2">Αφήστε σχόλιο</label>
+                                <textarea class="form-control" placeholder="Comment" id="comment" style="height: 100px; resize: none;" ></textarea>
+                                <label for="comment">Αφήστε σχόλιο</label>
+                                <div style="display: flex; justify-content: end; margin-top: 20px; margin-bottom: 30px;">
+                                    <button id="<%=event.event_id%>" type="submit" class="btn btn-success okBtn"style="background-color: #16874bf6" onclick="leaveComment(this.id)">Εντάξει</button>
+                                </div> 
                             </div>
+                            <form>
+                                <% for(var i=0; i<prevComments.length; i++) {%>
+                                    <div class="form-group row" style="margin-bottom: 50px;">
+                                        <label for="commentOld" class="col-sm-2 col-form-label"><%=prevComments[i].username%></label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" placeholder="Bio" id="commentOld" style="height: 80px; resize: none;" readonly> <%=prevComments[i].commenttext%> </textarea>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </form>
                         </form>
                     </div>
-              </div>
-              <div class="col">
-                <p style=" justify-content: center; margin-top: 50px;  margin-bottom: 30px; display: flex; font-weight: bold; font-size: 20px; ">
-                  Σας έχουν προσκαλέσει σε αυτή την εκδήλωση
-                </p>  
-                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-top: 10px;margin-bottom: 10px;">
-                  <div class="row g-0">
-                      <div class="col-md-4">
-                          <img src="https://scontent.fath3-4.fna.fbcdn.net/v/t39.30808-6/245484843_4460178967396196_2615077597583406743_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Q3f8rq-kiX4AX_g1pFU&_nc_ht=scontent.fath3-4.fna&oh=00_AfDwiQmYnEOHJxOVw2HkYj8f_mEioFGme38pBOe3oaM6yA&oe=636D6142" class="rounded" alt="..." style="width:60px;height:60px;">
-                      </div>
-                      <div class="col-md-8">
-                          <div class="card-body">
-                              <h5 class="card-title">Kalli_Gian</h5>
-                              <a href="/profileOther" class="stretched-link"></a>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-                    <p style=" justify-content: center; margin-top: 50px;  margin-bottom: 30px; display: flex; font-weight: bold; font-size: 20px; ">
-                      Ενδιαφέρονται για την εκδήλωση
-                    </p>  
-                    <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-top: 10px;margin-bottom: 10px;">
-                      <div class="row g-0">
-                          <div class="col-md-4">
-                              <img src="https://scontent.fath3-4.fna.fbcdn.net/v/t39.30808-6/245484843_4460178967396196_2615077597583406743_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Q3f8rq-kiX4AX_g1pFU&_nc_ht=scontent.fath3-4.fna&oh=00_AfDwiQmYnEOHJxOVw2HkYj8f_mEioFGme38pBOe3oaM6yA&oe=636D6142" class="rounded" alt="..." style="width:60px;height:60px;">
-                          </div>
-                          <div class="col-md-8">
-                              <div class="card-body">
-                                  <h5 class="card-title">Kalli_Gian</h5>
-                                  <a href="/profileOther" class="stretched-link"></a>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-
-                  <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-top: 10px;margin-bottom: 10px;">
-                      <div class="row g-0">
-                          <div class="col-md-4">
-                              <img src="https://scontent.fath3-4.fna.fbcdn.net/v/t31.18172-8/13086961_1713749108863486_6030135167580183717_o.jpg?_nc_cat=107&ccb=1-7&_nc_sid=174925&_nc_ohc=T_2HvUhbHsMAX-gIWbS&_nc_oc=AQkWbcBpg1wlAUOlB720AL2ES6sAX8eUKISxZ86rdI2OIFVCT3joz8KsnUpGgew45-uD1tetkPKMkh2cU5Axr2nQ&_nc_ht=scontent.fath3-4.fna&oh=00_AfBGGm1TeaLiF--jOU-O-wQ5N6QuAYtHCetCo_OAR_haSQ&oe=638F7622" class="rounded" alt="..." style="width:60px;height:60px;">
-                          </div>
-                          <div class="col-md-8">
-                              <div class="card-body">
-                                  <h5 class="card-title">Christos_Pantazopoulos</h5>
-                                  <a href="/profileOther" class="stretched-link"></a>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
                 </div>
-          </div>
+                <div class="col">
+                    <p style=" justify-content: center; margin-top: 50px;  margin-bottom: 30px; display: flex; font-weight: bold; font-size: 20px; ">
+                        Σας έχουν προσκαλέσει σε αυτή την εκδήλωση
+                    </p>  
+                    <div id='Invitations' style="margin-top: 50px;" >
+                            
+                        <% for(var i=0; i< myInvitation.length; i++) {%>
+                            <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                                <div class="row g-0" id = "<%= myInvitation[i].fk1_user_id%>" onclick="contactRedirect(this.id)">                                  
+                                   
+                                    <div class="col-md-4">
+                                        <img src="../<%=myInvitation[i].user_photo%>" style="width:80px;height:80px;"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%= myInvitation[i].username1%></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                   
+                    <p style=" justify-content: center; margin-top: 50px;  margin-bottom: 30px; display: flex; font-weight: bold; font-size: 20px; ">
+                        Ενδιαφέρονται για την εκδήλωση
+                    </p>  
+                    <div id='interestedUsers' style="margin-top: 50px;" >
+                            
+                        <% for(var i=0; i<interested.length; i++) {%>
+                            <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                                <div class="row g-0" id = "<%=interested[i].fk1_user_id%>" onclick="contactRedirect(this.id)">
+                                    
+                                    <div class="col-md-4">
+                                        <img src="../<%=interested[i].user_photo%>" style="width:80px;height:80px;"/>
+                                    </div>
+                                    
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%=interested[i].username%></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>                
+            </div>
+        </div>        
     </body>
+    <script>
+        var description= document.getElementById("description")
+        var dateEvent = document.getElementById("dateEvent")
+        var timeEvent = document.getElementById("timeEvent")
+        
+        function editEventData(curr_loc_id, event_id){
+            document.getElementById('updateAlert').style.display="block";
+            
+            var locationId = document.getElementById("selectBtn").getAttribute('loc_id')
+            var event_id = document.getElementById("editBtn").getAttribute('event_id')
+           
+            if(locationId == null){
+                locationId = curr_loc_id;
+            }
+
+            var data={
+                "event_id": event_id,
+                "description": description.value,
+                "locationId": locationId,
+                "dateEvent": dateEvent.value,
+                "timeEvent": timeEvent.value
+            }
+            
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "/editEvent";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(data.email + ", " + data.username + ", " + data.password);
+                }
+            };
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON);
+            
+        };
+
+        function deleteEvent(id){
+            document.getElementById('deleteAlert').style.display="block";
+
+            var data={
+                "eventId": id
+            }
+            
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "/deleteEvent";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON);
+
+            setTimeout( function() { window.location = '/home'}, 500 );
+            
+        };
+
+
+        function interestedBtn(id){
+            document.getElementById('interestedAlert').style.display="block";
+            var data={
+                "event_id":  id
+            }
+          
+           // Sending and receiving data in JSON format using POST method
+           var xhr = new XMLHttpRequest();
+           var url = "/interestedEvent";
+           xhr.open("POST", url, true);
+           xhr.setRequestHeader("Content-Type", "application/json");
+           var dataJSON = JSON.stringify({data});
+           xhr.send(dataJSON);   
+        };
+
+        function leaveComment(id){
+            var comment = document.getElementById("comment")
+            var data={
+                "event_id": id,
+                "comment": comment.value
+            }
+        
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "/commentEvent";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(titleEvent);
+                }
+            };
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON);
+        
+        };
+
+        function inviteFriend(user_id, event_id){
+            document.getElementById('inviteAlert').style.display="block";
+           
+            var data={
+                "user_id": user_id, 
+                "event_id": event_id
+            }
+        
+            // Sending and receiving data in JSON format using POST method
+                //
+            var xhr = new XMLHttpRequest();
+            var url = "/invite";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(titleEvent);
+                }
+            };
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON);
+        
+        };
+
+        function getUsrOpt(name, id){
+            var selected = name;
+            var selectBtn = document.getElementById("selectBtn");
+            selectBtn.innerHTML = name;
+            selectBtn.setAttribute('loc_id', id);
+        }
+
+        function locationRedirect(arg){
+            location.href = "/locationprofile/".concat(arg);
+        };
+
+        function contactRedirect(arg){
+            location.href = "/profileOther/".concat(arg);
+        };
+
+        function eventRedirect(arg){
+            setTimeout( function() { window.location = arg }, 500 );
+        }
+
+    </script>
     
 </html>

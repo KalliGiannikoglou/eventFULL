@@ -2,236 +2,275 @@
 <html lang="en">
 
     <head>
-        <title>EventFULL</title>
-        
-        <nav class="navbar navbar-dark fixed-top" style="background-color: #7ccba2cb; ">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/home">EventFULL</a>
-
-                <form class="d-flex mt-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Αναζητήστε Εκδηλώσεις, Άτομα, Τοποθεσίες" aria-label="Search" style="width: 500px">
-                    <button class="btn btn-success" type="submit" style="background-color:#16874bf6">ΟΚ</button>
-                </form>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" style="background-color:#16874bf6">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-                <div class="offcanvas-header" style="background-color: #7ccba293; ">
-                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">MENU</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body" style="background-color: #7ccba293; ">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/home">Αρχική σελίδα</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/profile">Το προφίλ μου</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/">Αποσύνδεση</a>
-                    </li>
-                    </ul>
-                    
-                </div>
-            </div>
-        </nav>    
-
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-            crossorigin="anonymous"></script>
-    
+        <%- include("header.ejs"); %>
     </head>
     
     <body style="background-image: url(); margin-top: 100px">
         
         <div style="display: flex; justify-content: center; ">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" onClick="visibility('UpcomingEvents', 'FriendSuggestions')">Νέες Εκδηλώσεις</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" onClick="visibility('UpcomingEvents', 'FriendSuggestions')">Εκδηλώσεις που σας ενδιαφέρουν</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" onClick="visibility('FriendSuggestions', 'UpcomingEvents')">Προσκλήσεις</a>
-                </li>
-            </ul>
+            <div>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" onClick="visibility('UpcomingEvents', 'InterestedId', 'FriendSuggestions');">Επερχόμενες Εκδηλώσεις</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" onClick="visibility('InterestedId','UpcomingEvents', 'FriendSuggestions');">Εκδηλώσεις που σας ενδιαφέρουν</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" onClick="visibility('FriendSuggestions', 
+                        'InterestedId','UpcomingEvents');">Προσκλήσεις</a>
+                    </li>
+                </ul>
+            </div>           
         </div>                        
+        <div  style="display: flex; justify-content: center; margin-top: 20px;">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"style="background-color: #16874bf6">
+                Φίλτρα
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Επιλέξτε κατηγορίες</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Theatre">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Θέατρο
+                                </label>
+                            </div>                       
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Music">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Μουσική
+                                </label>
+                            </div>                        
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Kids">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Κατάλληλο για παιδία
+                                </label>
+                            </div>                                                
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Food">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Φαγητό
+                                </label>
+                            </div>                    
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Cinema">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Σινεμά
+                                </label>
+                            </div>                        
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Dance">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Χορός
+                                </label>
+                            </div>                      
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Exhibition">
+                                <label class="form-check-label" for="Exhibition">
+                                    Έκθεση
+                                </label>
+                            </div>                      
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Drinks">
+                                <label class="form-check-label" for="Drinks">
+                                    Ποτό
+                                </label>
+                            </div>                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color:#16874bf6" onclick="filterFunc();">Εντάξει</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
 
         <div id = "UpcomingEvents" style="margin-top: 50px">
-            <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="https://www.paidikihara.gr/wp-content/uploads/2020/01/party-18xronon.jpg" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Πάρτυ</h5>
-                            <p class="card-text">Ένα μοναδικό πάρτυ</p>
+            <% for(var i=0; i<allEvents.length; i++) {%>
+                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                    <div class="row g-0" id = "<%=allEvents[i].event_id%>" onclick="eventRedirect(this.id)">
+                        
+                        <div class="col-md-4">
+                            <img src="../<%=allEvents[i].event_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center; margin-top: 25px; margin-left: 25px;">
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item" label for="date">
-                                <input type="date" class="form-control" id="date">
-                            </li>
-                            <li class="list-group-item" for="time">
-                                <input type="time" class="form-control" id="time"></li>
-                            <li class="list-group-item">Τοποθεσία</li>                    
-                            <li class="list-group-item">Διοργανωτής</li>
-                        </ul>
-                        <div class="card-body">
-                            <a href="/eventprofile" class="stretched-link"></a>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><%=allEvents[i].event_title%></h5>
+                                <p class="card-text"><%=allEvents[i].description%></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" label for="date">
+                                    <date>Ημερομηνία: <%=allEvents[i].date.toDateString()%></date>
+                                </li>
+                                <li class="list-group-item" for="time">
+                                    <time>Ώρα: <%=allEvents[i].time%></time>
+                                <li class="list-group-item">Τοποθεσία: <%=allEvents[i].location_name%></li>                    
+                                <li class="list-group-item">Διοργανωτής: <%=allEvents[i].organiser_name%></li>
+                            </ul>
+                            <!-- <div class="card-body" >
+                                <a href="/eventprofile" class="stretched-link"></a>
+                            </div> -->
+                            
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="https://www.maxmag.gr/wp-content/uploads/2020/11/a9495a6d897c714db07320d3bba4eb87.jpg" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Θεατρική Παράσταση</h5>
-                            <p class="card-text">Μια σπαρταριστή κωμωδία </p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item" label for="date">
-                                <input type="date" class="form-control" id="date">
-                            </li>
-                            <li class="list-group-item" for="time">
-                                <input type="time" class="form-control" id="time"></li>
-                            <li class="list-group-item">Τοποθεσία</li>                    
-                            <li class="list-group-item">Διοργανωτής</li>
-                        </ul>
-                        <div class="card-body">
-                            <a href="/eventprofile" class="stretched-link"></a>
-                        </div>
+                        
                     </div>
                 </div>
-            </div>
-
-            <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="https://scontent.fath3-4.fna.fbcdn.net/v/t39.30808-6/282189416_1122696374957149_6749716041695694468_n.jpg?stp=dst-jpg_p526x395&_nc_cat=100&ccb=1-7&_nc_sid=0debeb&_nc_ohc=U97H7Fyv-BQAX_uDaU_&_nc_ht=scontent.fath3-4.fna&oh=00_AfAgld7FDgu2yC7hqvGKMBOdhDplthIrvz5f11Lno__E9w&oe=636CBDEC" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Πάρτυ ΜΗΧ ΜΗΧ</h5>
-                            <p class="card-text">Ένα μοναδικό πάρτυ</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item" label for="date">
-                                <input type="date" class="form-control" id="date">
-                            </li>
-                            <li class="list-group-item" for="time">
-                                <input type="time" class="form-control" id="time"></li>
-                            <li class="list-group-item">Τοποθεσία</li>                    
-                            <li class="list-group-item">Διοργανωτής</li>
-                        </ul>
-                        <div class="card-body">
-                            <a href="/eventprofile" class="stretched-link"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="https://www.efsyn.gr/sites/default/files/styles/default/public/2021-08/synavlia_klassikis.jpg?itok=nvs7k-dF" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Συναυλία</h5>
-                            <p class="card-text">Αφιέρωμα στην κλασσική μουσική</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item" label for="date">
-                                <input type="date" class="form-control" id="date">
-                            </li>
-                            <li class="list-group-item" for="time">
-                                <input type="time" class="form-control" id="time"></li>
-                            <li class="list-group-item">Τοποθεσία</li>                    
-                            <li class="list-group-item">Διοργανωτής</li>
-                        </ul>
-                        <div class="card-body">
-                            <a href="/eventprofile" class="stretched-link"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <% } %>
         </div>
-       
+
+        <div id = "InterestedId" style="margin-top: 50px; display: none;">
+            <% for(var j=0; j < interestedEvents.length; j++) {%>
+                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                    <div class="row g-0" id = "<%=interestedEvents[j].event_id%>" onclick="eventRedirect(this.id)">
+                        
+                        <div class="col-md-4">
+                            <img src="../<%=interestedEvents[j].event_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center; margin-top: 25px; margin-left: 25px;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><%=interestedEvents[j].event_title%></h5>
+                                <p class="card-text"><%=interestedEvents[j].description%></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" label for="date">
+                                    <date>Ημερομηνία: <%=interestedEvents[j].date.toDateString()%></date>
+                                </li>
+                                <li class="list-group-item" for="time">
+                                    <time>Ώρα: <%=interestedEvents[j].time%></time>
+                                <li class="list-group-item">Τοποθεσία: <%=interestedEvents[j].location_name%></li>                    
+                                <li class="list-group-item">Διοργανωτής: <%=interestedEvents[j].organiser_name%></li>
+                            </ul>                           
+                        </div>
+                        
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        
                                    
         <div id="FriendSuggestions" style= "display: none; margin-top: 50px">
-            <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="https://scontent.fath3-4.fna.fbcdn.net/v/t39.30808-6/282189416_1122696374957149_6749716041695694468_n.jpg?stp=dst-jpg_p526x395&_nc_cat=100&ccb=1-7&_nc_sid=0debeb&_nc_ohc=U97H7Fyv-BQAX_uDaU_&_nc_ht=scontent.fath3-4.fna&oh=00_AfAgld7FDgu2yC7hqvGKMBOdhDplthIrvz5f11Lno__E9w&oe=636CBDEC" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Πάρτυ ΜΗΧ ΜΗΧ</h5>
-                            <h5 class="card-text"style="color:#16874bf6;" >Σας προσκάλεσαν 3 άτομα</h5>
-                            <p class="card-text">Ένα μοναδικό πάρτυ</p>
+            <% for(var j=0; j <  invitedEvents.length; j++) {%>
+                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                    <div class="row g-0" id = "<%= invitedEvents[j].event_id%>" onclick="eventRedirect(this.id)">
+                        <div class="col-md-4">
+                            <img src="../<%=invitedEvents[j].event_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center; margin-top: 25px; margin-left: 25px;">
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item" label for="date">
-                                <input type="date" class="form-control" id="date">
-                            </li>
-                            <li class="list-group-item" for="time">
-                                <input type="time" class="form-control" id="time"></li>
-                            <li class="list-group-item">Τοποθεσία</li>                    
-                            <li class="list-group-item">Διοργανωτής</li>
-                        </ul>
-                        <div class="card-body">
-                            <a href="/eventprofile" class="stretched-link"></a>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h4 class="card-title"><%= invitedEvents[j].event_title%></h4>
+                                <h5 class="card-title" style="color: rgb(44, 155, 10)">Σας έχουν προσκαλέσει <%= invitedEvents[j].count%> άτομα</h5>
+                                <p class="card-text"><%= invitedEvents[j].description%></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" label for="date">
+                                    <date>Ημερομηνία: <%= invitedEvents[j].date.toDateString()%></date>
+                                </li>
+                                <li class="list-group-item" for="time">
+                                    <time>Ώρα: <%= invitedEvents[j].time%></time>
+                                <li class="list-group-item">Τοποθεσία: <%= invitedEvents[j].location_name%></li>                    
+                                <li class="list-group-item">Διοργανωτής: <%= invitedEvents[j].organiser_name%></li>
+                            </ul>                          
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="https://www.efsyn.gr/sites/default/files/styles/default/public/2021-08/synavlia_klassikis.jpg?itok=nvs7k-dF" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Συναυλία</h5>
-                            <h5 class="card-text"style="color:#16874bf6;" >Σας προσκάλεσε 1 άτομο</h5>
-                            <p class="card-text">Αφιέρωμα στην κλασσική μουσική</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item" label for="date">
-                                <input type="date" class="form-control" id="date">
-                            </li>
-                            <li class="list-group-item" for="time">
-                                <input type="time" class="form-control" id="time"></li>
-                            <li class="list-group-item">Τοποθεσία</li>                    
-                            <li class="list-group-item">Διοργανωτής</li>
-                        </ul>
-                        <div class="card-body">
-                            <a href="/eventprofile" class="stretched-link"></a>
-                        </div>
+                        
                     </div>
                 </div>
-            </div>
+            <% } %>
+        </div>
            
     </body>
 
     <script>
 
-        function visibility(idVisible, idInvisible1){
+        function visibility(idVisible, idInvisible1, idInvisible2){
             document.getElementById(idVisible).style.display="block";
             document.getElementById(idInvisible1).style.display="none";
+            document.getElementById(idInvisible2).style.display="none";
         }
+
+
+        
+        function sendEventTitle(){
+            var title = document.getElementById("allEventsTitle")
+            var data={
+                "title": title.value,
+            }
+        
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "/getEventInfo";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(data.email + ", " + data.username + ", " + data.password);
+                }
+            };
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON);
+            
+        };
+
+        function eventRedirect(arg){
+            
+            location.href = "/eventprofile/".concat(arg);
+        };
+
+        async function filterFunc(){
+            var theatre = document.getElementById("Theatre")
+            var music = document.getElementById("Music")
+            var kids = document.getElementById("Kids")
+            var food = document.getElementById("Food")
+            var cinema = document.getElementById("Cinema")
+            var dance = document.getElementById("Dance")
+            var exhibition = document.getElementById("Exhibition")
+            var drinks = document.getElementById("Drinks")
+            
+            var payload={
+                "theatre": theatre.checked,
+                "music": music.checked,
+                "kids": kids.checked,
+                "food": food.checked,
+                "cinema": cinema.checked,
+                "dance": dance.checked,
+                "exhibition": exhibition.checked,
+                "drinks": drinks.checked
+            }
+            
+            
+            let response = await fetch("/filteredevents",
+            {
+                method: "POST",
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }
+            })
+            .then(function(res){ return res.json(); })  
+           
+            Array.prototype.forEach.call(document.getElementsByClassName("row g-0"), function (event) {
+                event.parentElement.style.display = "none";
+            });
+   
+            Array.prototype.forEach.call(document.getElementsByClassName("row g-0"), function (event) {
+                for(var i in response)
+                    if(response[i] == event.id){
+                        event.parentElement.style.display = "block"; 
+                        break;
+                    }
+                
+            });        
+        };
     </script>
     
 </html>

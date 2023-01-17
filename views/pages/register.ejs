@@ -7,7 +7,6 @@
         <nav class="navbar navbar-dark fixed-top" style="background-color: #7ccba2cb; ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">EventFULL</a>
-
                 
             </div>
         </nav>    
@@ -26,36 +25,36 @@
            Δημιουργία Νέου Λογαριασμού
         </p>  
     
-        <div style="display: flex; justify-content: center; margin-top: 100px; ">
+        <div style="display: flex; justify-content: center; margin-top: 50px; ">
             <form>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email </label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text"></div>
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email">
+                    <div class="form-text"></div>
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Όνομα Χρήστη</label>
-                    <input type="text" class="form-control" id="Username" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text"></div>
+                    <label for="username" class="form-label">Όνομα Χρήστη</label>
+                    <input type="text" class="form-control" id="username">
+                    <div class="form-text"></div>
                 </div>
                 <div class="mb-3" >
-                    <label for="exampleInputEmail1" class="form-label">Κωδικός Πρόσβασης</label>
-                    <input type="password" class="form-control" id="password" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text"></div>
+                    <label for="password" class="form-label">Κωδικός Πρόσβασης</label>
+                    <input type="password" class="form-control" id="password">
+                    <div class="form-text"></div>
                 </div>
                 <div class="mb-3" >
-                    <label for="exampleInputEmail1" class="form-label">Επαναλάβετε τον Κωδικό Πρόσβασης</label>
-                    <input type="password" class="form-control" id="password" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">Δεν θα κοινοποιήσουμε ποτέ τον κωδικό σας.</div>
+                    <label for="passwordRefresh" class="form-label">Κωδικός Πρόσβασης</label>
+                    <input type="password" class="form-control" id="passwordRefresh">
+                    <div class="form-text">Δεν θα κοινοποιήσουμε ποτέ τον κωδικό σας.</div>
                 </div>
-                 
+                
                 <div style="display: flex; justify-content: end;">
-                    <button class="btn btn-success" type="submit" style="background-color:#16874bf6" onClick="location.href='/profile';">
-                        Είσοδος
-                    </button>
+                    <a href="/">
+                    <button id="registerBtn" class="btn btn-success" type="button" style="background-color:#16874bf6">Δημιουργία</button>
+                    </a>
                 </div>
                
-                <div style="text-align: center; margin-top: 5px;">
+                <div style="text-align: center; margin-top: 20px; margin-bottom: 30px;">
                     <span> Έχετε ήδη λογαριασμό; <a href="/"> Συνδεθείτε εδώ </a>
                     </span>
                 </div>
@@ -65,17 +64,35 @@
     </body>
     
     <script>
-    
-        function redirect() {
-            window.location.href = 'http://localhost:5000/profile'
-        }
-    
-        function buttonClicked() {
-            console.log(document.getElementById('title').textContent)
-            const newTitle = document.getElementById('text_id').value
-            document.getElementById('title').textContent = newTitle
-        }
-    
+        var email = document.getElementById("email")
+        var username = document.getElementById("username")
+        var password = document.getElementById("password")
+        var passwordRef = document.getElementById("passwordRefresh")
+        var registerBtn = document.getElementById("registerBtn")
+
+        registerBtn.addEventListener("click", function(){
+            var data={
+                "email":email.value,
+                "username":username.value,
+                "password":password.value
+                //"passwordRef":passwordRef.value
+            }
+           
+            // Sending and receiving data in JSON format using POST method
+            //
+            var xhr = new XMLHttpRequest();
+            var url = "/registerData";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(data.email + ", " + data.username + ", " + data.password);
+                }
+            };
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON);
+            
+        });
     
     </script>
 </html>

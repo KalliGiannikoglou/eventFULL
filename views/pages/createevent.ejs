@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include("header.ejs"); %>
+    </head>
+    
+    <body style="background-image: url()">
+        
+        <p style=" justify-content: center; margin-top: 80px; display: flex; font-weight: bold; font-size: 40px; ">
+            Δημιουργία Νέας Εκδήλωσης
+         </p>  
+     
+        <div style="display: flex; justify-content: center; margin-top: 100px; max-width: 50%; margin:auto">
+            <form class="row g-3">
+                <div class="text-center">
+                    <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/512/external-party-edm-flaticons-lineal-color-flat-icons.png" class="rounded" alt="..."style="width:200px;height:200px;">
+                </div>
+                
+                <div id='createAlert' class="alert alert-success" role="alert" style="width: 60%; text-align:left; display: none;">
+                    Η εκδήλωση δημιουργήθηκε με επιτυχία! 
+                </div>
+                <div class="col-12">
+                    <label  for="titleEvent" class="form-label" ></label>
+                    <input type="text" class="form-control" id="titleEvent" placeholder="Τίτλος Εκδήλωσης">
+                    </div>
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Bio" id="description" style="height: 100px"></textarea>
+                    <label for="description">Περιγραφή</label>
+                </div>
+
+                <table class="table table-bordered" style="margin-left:5px; margin-bottom: 0px;">
+                    <thead>
+                      <tr>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="form-check" >
+                                    <input class="form-check-input" type="checkbox" value="" id="Theatre">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Θέατρο
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check" >
+                                    <input class="form-check-input" type="checkbox" value="" id="Music">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Μουσική
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check" >
+                                    <input class="form-check-input" type="checkbox" value="" id="Kids">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Κατάλληλο για παιδία
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check" >
+                                    <input class="form-check-input" type="checkbox" value="" id="Food">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Φαγητό
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check" >
+                                    <input class="form-check-input" type="checkbox" value="" id="Cinema">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Σινεμά
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check" >
+                                    <input class="form-check-input" type="checkbox" value="" id="Dance">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Χορός
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check" >
+                                    <input class="form-check-input" type="checkbox" value="" id="Exhibition">
+                                    <label class="form-check-label" for="Exhibition">
+                                        Έκθεση
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check" >
+                                    <input class="form-check-input" type="checkbox" value="" id="Drinks">
+                                    <label class="form-check-label" for="Drinks">
+                                        Ποτό
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+
+                <div class="col-md-5" style="margin-top: 30px;">
+                    <div class="dropdown">
+                        <div class="btn-group dropend">
+                            <button type="button" id="selectBtn" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: rgba(96, 139, 116, 0.944);">
+                              Τοποθεσία
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="locationEvent" >
+                                <% for(var j=0; j <  locations.length; j++) {%>
+                                    <li><a class="dropdown-item" href="#" id="locationMenu" val="<%=locations[j].location_name%>" loc_id="<%=locations[j].location_id%>" onclick="getUsrOpt(this.getAttribute('val'), this.getAttribute('loc_id'))"><%=locations[j].location_name%></a></li>
+                                <% } %>                    
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" style="margin-top: 0px;">
+                    <label for="dateEvent" class="form-label"></label>
+                    <input type="date" class="form-control" id="dateEvent">
+                </div>
+                <div class="col-md-3" style="margin-top: 0px;">
+                    <label for="timeEvent" class="form-label"></label>
+                    <input type="time" class="form-control" id="timeEvent">
+                </div>
+                <div style="text-align: left; margin-top: 5px;">
+                    <span> Δεν βρίσκετε την τοποθεσία σας; <a href="/newlocation"> Προσθέστε την εδώ </a>
+                    </span>
+                </div>
+                <div style="display: flex; justify-content: end; margin-bottom: 30px; margin-top: 15px; ">
+                    <button id="submitBtn" type="button" class="btn btn-success" onclick = "homeRedirect()" style="background-color: #16874bf6; font-size: 20px; ">Δημιουργία</button>
+                </div>
+                
+            </form>   
+        </div>
+    </body>
+    
+    <script>
+
+        submitBtn.addEventListener("click", function(){
+           
+            var titleEvent = document.getElementById("titleEvent")
+            var description= document.getElementById("description")
+            var locationId = document.getElementById("selectBtn").getAttribute('loc_id')
+            var dateEvent = document.getElementById("dateEvent")
+            var timeEvent = document.getElementById("timeEvent")
+            var theatre = document.getElementById("Theatre")
+            var music = document.getElementById("Music")
+            var kids = document.getElementById("Kids")
+            var food = document.getElementById("Food")
+            var cinema = document.getElementById("Cinema")
+            var dance = document.getElementById("Dance")
+            var exhibition = document.getElementById("Exhibition")
+            var drinks = document.getElementById("Drinks")
+            
+            console.log(locationId.value);
+            var data={
+                "titleEvent": titleEvent.value,
+                "description": description.value,
+                "locationId": locationId,
+                "dateEvent": dateEvent.value,
+                "timeEvent": timeEvent.value,
+                "theatre": theatre.checked,
+                "music": music.checked,
+                "kids": kids.checked,
+                "food": food.checked,
+                "cinema": cinema.checked,
+                "dance": dance.checked,
+                "exhibition": exhibition.checked,
+                "drinks": drinks.checked
+            }
+
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "/addEvent";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(data.titleEvent + ", " + data.organiser + ", " + data.description + ", " +
+                                data.locationEvent + ", " + data.dateEvent + ", " + data.timeEvent);
+                }
+            };
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON);
+            
+        });
+
+        function homeRedirect(){
+            document.getElementById('createAlert').style.display="block";
+            location.href="javascript:delay('/home')"
+        };
+        function delay (URL) {
+            setTimeout( function() { window.location = URL }, 5000 );
+        }
+        
+        function getUsrOpt(name, id){
+            var selected = name;
+            var selectBtn = document.getElementById("selectBtn");
+            selectBtn.innerHTML = name;
+            selectBtn.setAttribute('loc_id', id);
+        }
+        
+    </script>
+    
+</html>

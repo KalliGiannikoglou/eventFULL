@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include("header.ejs"); %>
+    </head>
+    
+    <body style="background-image: url()">
+        
+        <p style=" justify-content: center; margin-top: 100px; display: flex; font-weight: bold; font-size: 40px; ">
+           Τοποθεσία Εκδήλωσης
+        </p>  
+    
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    <div style="display: flex; justify-content: center; margin-top: 100px; max-width: 70%; margin:auto">
+                        <form class="row g-3">
+                            <div class="text-center">
+                                <img src="https://img.icons8.com/external-nawicon-outline-color-nawicon/64/000000/external-location-maps-and-navigation-nawicon-outline-color-nawicon-2.png"style="width:200px;height:200px;"/>
+                            </div>
+                            <div id='createAlert' class="alert alert-success" role="alert" style="width: 60%; text-align:left; display: none;">
+                                Η τοποθεσία δημιουργήθηκε με επιτυχία! 
+                            </div> 
+                            <div class="col-12">
+                                <label  for="name" class="form-label"></label>
+                                <input type="text" class="form-control" id="name" placeholder="Ονομασία">
+                            </div>
+                            <div class="col-md-6" >
+                                <div class="form-text">Αν η διεύθυνση που εισάγεται δεν βρεθεί στον χάρτη, δοκιμάστε μια εναλλακτική ονομασία</div>
+                                <label for="address" class="form-label"></label>
+                                <input type="text" class="form-control" id="address" placeholder="Διεύθυνση">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-text" style="margin-bottom:20px">Το τηλέφωνο πρέπει να έχει ακριβώς 10 ψηφία, χωρίς κενά</div>   
+                                <label for="phone" class="form-label"></label>
+                                <input type="tel" class="form-control" id="phone" placeholder="Τηλέφωνο">
+                                 
+                            </div>
+
+                            <table class="table table-bordered" style="margin-left:5px">
+                                <thead>
+                                  <tr>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check" >
+                                                <input class="form-check-input" type="checkbox" value="" id="parking">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Parking
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check" >
+                                                <input class="form-check-input" type="checkbox" value="" id="indoor">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Εσωτερικός Χώρος
+                                                    
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check" >
+                                                <input class="form-check-input" type="checkbox" value="" id="wc">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    WC
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check" >
+                                                <input class="form-check-input" type="checkbox" value="" id="Accessible">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Προσβάσιμο σε ΑΜΕΑ
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check" >
+                                                <input class="form-check-input" type="checkbox" value="" id="Transportation">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Συγκοινωνία
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check" >
+                                                <input class="form-check-input" type="checkbox" value="" id="outdoor">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Εξωτερικός Χώρος
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check" >
+                                                <input class="form-check-input" type="checkbox" value="" id="Pets">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    Επιτρέπονται κατοικίδια
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                        
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                           
+                            <div style="display: flex; justify-content: end;">
+                                <button id="submitbtn" type="button" class="btn btn-success" onclick="homeRedirect()" style="background-color: #16874bf6">Εντάξει</button>
+                            </div>                                                      
+                        </form>
+                    </div>
+                </div>
+             
+            </div>
+        </div> 
+    </body>
+    <script>
+        submitbtn.addEventListener("click", function(){
+            var name = document.getElementById("name")
+            var address = document.getElementById("address")
+            var phone = document.getElementById("phone")
+            var parking = document.getElementById("parking")
+            var indoor = document.getElementById("indoor")
+            var wc = document.getElementById("wc")
+            var accessible = document.getElementById("Accessible")
+            var transportation = document.getElementById("Transportation")
+            var outdoor = document.getElementById("outdoor")
+            var pets = document.getElementById("Pets")
+
+            var data={
+                "name": name.value,
+                "address": address.value,
+                "phone": phone.value,
+                "parking": parking.checked,
+                "indoor": indoor.checked,
+                "wc": wc.checked,
+                "accessible": accessible.checked,
+                "transportation": transportation.checked,
+                "outdoor": outdoor.checked,
+                "pets": pets.checked                        
+            }
+            
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "/addLocation";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+           
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON); 
+        });
+
+        function homeRedirect(){
+            document.getElementById('createAlert').style.display="block";
+            location.href="javascript:delay('/home')"
+        };
+        function delay (URL) {
+            setTimeout( function() { window.location = URL }, 5000 );
+        }
+
+    </script>
+    
+</html>
+
