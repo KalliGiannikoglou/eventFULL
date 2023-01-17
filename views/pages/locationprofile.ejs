@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include("header.ejs"); %>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+        crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+            crossorigin=""></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    </head>
+    
+    <body style="background-image: url()">
+        
+        <p style=" justify-content: center; margin-top: 100px; display: flex; font-weight: bold; font-size: 40px; ">
+           Τοποθεσία Εκδήλωσης
+        </p>  
+    
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    <div style="display: flex; flex-direction: column; justify-content: center; margin-top: 50px; ">      
+                        <form action="/editLocationPhoto/<%=location[0].location_id%>" method="POST" encType="multipart/form-data"> 
+                            <div class="text-center">
+                                <img src="../<%=location[0].location_photo%>" style="width:300px;height:200px;"/>
+                            </div>
+                            <%if(flagOwner == 1){ %>
+                                <div style="text-align: left;">
+                                    <label for="upload" class="col-form-label" style="font-weight: bold;">Ανεβάστε φωτογραφία</label>
+                                    <input type="file" name="sampleFile" accept="image/*" />
+                                    <input id="photoBtn" type="submit" class="btn btn-primary" style="background-color:#16874bf6" onclick="locationRedirect('/locationprofile/<%=location[0].location_id%>')">                                
+                                </div>
+                            <%}%>                            
+                          
+                            <div class="col-12">
+                                <label  for="name" class="form-label"></label>
+                                <input type="text" class="form-control" id="name" value="<%=location[0].location_name%>" readonly>
+                            </div>
+                            <div class="col-12">
+                                 <div class="col-md-6">
+                                <label for="address" class="form-label"></label>
+                                <%if(flagOwner == 1){ %>
+                                    <input type="text" class="form-control" id="address" placeholder="Διεύθυνση" value="<%=location[0].address%>">
+                                <%}else{%>
+                                    <input type="text" class="form-control" id="address_readonly" placeholder="Διεύθυνση" value="<%=location[0].address%>" readonly>
+                                <%}%>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label"></label>
+                                <%if(flagOwner == 1){ %>
+                                    <input type="tel" class="form-control" id="phone" placeholder="Τηλέφωνο" value="<%=location[0].phone%>">
+                                <%}else{%>
+                                    <input type="tel" class="form-control" placeholder="Τηλέφωνο" value="<%=location[0].phone%>" readonly>  
+                                <%}%>                               
+                            </div>
+                           
+                            </div>
+                           
+                           
+                            <%if(flagOwner == 1){ %>
+                            <div style="display: flex; justify-content: end;">
+                                <button type="button" class="btn btn-success" onclick="editEventData()" style="background-color: #16874bf6">Ανανέωση</button>
+                            </div> 
+                            <div id='updateAlert' class="alert alert-success" role="alert" style="width: 60%; text-align:left; display: none;">
+                                Η τοποθεσία ανανεώθηκε με επιτυχία! 
+                            </div>     
+                            <%}%>
+                            
+                            <div>
+                                <table class="table" style="width:80%; margin-right:40px; margin-top:30px;">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" style="width:20px"></th>
+                                        <th scope="col" style="width:60px">Παροχές</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% if(location[0].z_parking){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Parking</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(location[0].z_transportation){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Συγκοινωνία</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(location[0].z_accessible){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Προσβάσιμο σε ΑΜΕΑ</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(location[0].z_outdoor){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Εξωτερικός Χώρος</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(location[0].z_indoor){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Εσωτερικός Χώρος</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(location[0].z_wc){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>WC</td>
+                                        </tr>
+                                    <% } %>
+                                    <% if(location[0].z_pets){%>
+                                        <tr>
+                                            <td><img src="https://img.icons8.com/color/48/null/checkmark--v1.png" style="width:20px;height:20px;"/></td>
+                                            <td>Επιτρέπονται κατοικίδια</td>
+                                        </tr>
+                                    <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- MAP -->
+                            <div id="map" style = "height: 400px;"></div>
+                        </form>
+                        
+                        <form>
+                            <div class="form-floating">
+                                <!-- <label for="comment" style=" margin-top: 100px;">Αφήστε σχόλιο</label> -->
+                                <textarea class="form-control" placeholder="Comment" id="comment" style=" margin-top: 50px; height: 100px; resize: none;" ></textarea>
+                                <label for="comment">Αφήστε σχόλιο</label>
+                                <div style="display: flex; justify-content: end; margin-top: 20px; margin-bottom: 30px;">
+                                    <button id="<%=location[0].location_id%>" type="submit" class="btn btn-success okBtn"style="background-color: #16874bf6" onclick="leaveComment(this.id)">Εντάξει</button>
+                                </div> 
+                            </div>
+                            <form>
+                                <% for(var i=0; i<prevComments.length; i++) {%>
+                                    <div class="form-group row" style="margin-bottom: 50px;">
+                                        <label for="commentOld" class="col-sm-2 col-form-label"><%=prevComments[i].username%></label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" placeholder="Bio" id="commentOld" style="height: 80px; resize: none;" readonly> <%=prevComments[i].commenttext%> </textarea>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </form>
+                        </form>
+                    </div>
+                </div>
+                <div class="col">
+                
+                    <p style=" justify-content: center; margin-top: 50px;  margin-bottom: 30px; display: flex; font-weight: bold; font-size: 20px; ">
+                        Επερχόμενες εκδηλώσεις 
+                    </p>  
+                    
+                    <div id = "UpcomingEvents" style="margin-top: 50px">
+                        <% for(var i=0; i<events.length; i++) {%>
+                            <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                                <div class="row g-0" id = "<%=events[i].event_id%>" onclick="eventRedirect(this.id)">
+                                    <div class="col-md-4">
+                                        <img src="../<%=events[i].event_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center; margin-top: 25px;">
+                                    </div>
+                                    <div class="col-md-8">                                    
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%=events[i].event_title%></h5>
+                                            <p class="card-text"><%=events[i].description%></p>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item" label for="date">
+                                                <date>Ημερομηνία: <%=events[i].date.toDateString()%></date>
+                                            </li>
+                                            <li class="list-group-item" for="time">
+                                                <time>Ώρα: <%=events[i].time%></time>
+                                            <li class="list-group-item">Τοποθεσία: <%=events[i].location_name%></li>                    
+                                            <li class="list-group-item">Διοργανωτής: <%=events[i].organiser_name%></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+    </body>
+    <script>
+       
+        document.addEventListener('DOMContentLoaded', function() {
+            var address = document.getElementById("address");
+            if(address != null){
+                address = document.getElementById("address").value;
+            }
+            else{
+                address = document.getElementById("address_readonly").value;
+            }
+            console.log('hello', address)
+            $.getJSON( "https://nominatim.openstreetmap.org/search?q="+address+"&format=json&polygon=1&addressdetails=1", function( data ) {
+            var map = L.map('map').setView([data[0].lat, data[0].lon], 14);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+            var marker = L.marker([data[0].lat,data[0].lon]).addTo(map).bindPopup(address)
+                .openPopup();
+            })
+        }, false);
+
+       function editEventData(){
+            document.getElementById('updateAlert').style.display="block";
+            var name = document.getElementById("name")
+            var address = document.getElementById("address")
+            var phone = document.getElementById("phone")
+           
+            var data={
+                "name": name.value,
+                "address": address.value,
+                "phone": phone.value    
+            }
+            
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "/editLocation";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+           
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON); 
+        };
+
+        function leaveComment(id){
+            var comment = document.getElementById("comment")
+            var data={
+                "location_id": id,
+                "comment": comment.value
+            }
+        
+            // Sending and receiving data in JSON format using POST method
+                //
+            var xhr = new XMLHttpRequest();
+            var url = "/commentLocation";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(titleEvent);
+                }
+            };
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON);
+        
+        };
+        
+        function eventRedirect(arg){
+            location.href = "/eventprofile/".concat(arg);
+        };
+
+        function locationRedirect(arg){
+            setTimeout( function() { window.location = arg }, 500 );
+        };
+    </script>
+    
+</html>
+

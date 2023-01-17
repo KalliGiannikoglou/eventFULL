@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include("header.ejs"); %>
+    </head>
+    
+    <body style="background-image: url(); margin-top: 100px">
+                    
+        <p style=" justify-content: center; margin-top: 100px; display: flex; font-weight: bold; font-size: 40px; ">
+            Άτομα 
+        </p>
+        <div id = "Users" style="margin-top: 50px">
+            <% for(var i=0; i<users.length; i++) {%>
+                <div class="card mb-3" style="max-width: 700px;margin: auto;float: none;margin-bottom: 10px; margin-top: 30px;">
+                    <div class="row g-0" id = "<%=users[i].user_id%>" onclick="userRedirect(this.id)">           
+                        <div class="col-md-4">
+                            <img src="../<%=users[i].user_photo%>" style="width:150px;height:150px;"/>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><%=users[i].username%></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %> 
+        </div>
+
+        <p style=" justify-content: center; margin-top: 100px; display: flex; font-weight: bold; font-size: 40px; ">
+            Εκδηλώσεις
+        </p>
+        <div id = "Events" style="margin-top: 50px; ">
+            <div style="margin-top: 50px">
+                <% for(var i=0; i<events.length; i++) {%>
+                    <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                        <div class="row g-0" id = "<%=events[i].event_id%>" onclick="eventRedirect(this.id)">
+                            <div class="col-md-4">
+                                <img src="../<%=events[i].event_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center; margin-top: 25px; margin-left: 25px;">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%=events[i].event_title%></h5>
+                                    <p class="card-text"><%=events[i].description%></p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item" label for="date">
+                                        <date>Ημερομηνία: <%=events[i].date.toDateString()%></date>
+                                    </li>
+                                    <li class="list-group-item" for="time">
+                                        <time>Ώρα: <%=events[i].time%></time>
+                                    <li class="list-group-item">Τοποθεσία: <%=events[i].location_name%></li>                    
+                                    <li class="list-group-item">Διοργανωτής: <%=events[i].organiser_name%></li>
+                                </ul>                               
+                            </div>                            
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        
+        <p style=" justify-content: center; margin-top: 100px; display: flex; font-weight: bold; font-size: 40px; ">
+            Τοποθεσίες
+        </p>                           
+        <div id="Loc" style= "margin-top: 50px">
+            <div style="margin-top: 50px">
+                <% for(var i=0; i<locations.length; i++) {%>
+                    <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                        <div class="row g-0" id = "<%=locations[i].location_id%>" onclick="locationRedirect(this.id)">
+                            <div class="col-md-4">
+                                <img src="../<%=locations[i].location_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center;">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%=locations[i].location_name%></h5>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item" label for="date">
+                                        <p>Διεύθυνση: <%=locations[i].address%></p>
+                                    </li>
+                                    <li class="list-group-item" for="time">
+                                        <p>Τηλέφωνο: <%=locations[i].phone%></p>
+                                    </li>
+                                </ul>                               
+                            </div>                            
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+           
+    </body>
+
+    <script>
+        
+        function userRedirect(arg){
+            location.href = "/profileOther/".concat(arg);
+        };
+        function eventRedirect(arg){
+            location.href = "/eventprofile/".concat(arg);
+        };
+        function locationRedirect(arg){
+            location.href = "/locationprofile/".concat(arg);
+        };
+    </script>
+    
+</html>

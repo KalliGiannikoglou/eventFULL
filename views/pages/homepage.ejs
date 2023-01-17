@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include("header.ejs"); %>
+    </head>
+    
+    <body style="background-image: url(); margin-top: 100px">
+        
+        <div style="display: flex; justify-content: center; ">
+            <div>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" onClick="visibility('UpcomingEvents', 'InterestedId', 'FriendSuggestions');">Επερχόμενες Εκδηλώσεις</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" onClick="visibility('InterestedId','UpcomingEvents', 'FriendSuggestions');">Εκδηλώσεις που σας ενδιαφέρουν</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" onClick="visibility('FriendSuggestions', 
+                        'InterestedId','UpcomingEvents');">Προσκλήσεις</a>
+                    </li>
+                </ul>
+            </div>           
+        </div>                        
+        <div  style="display: flex; justify-content: center; margin-top: 20px;">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"style="background-color: #16874bf6">
+                Φίλτρα
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Επιλέξτε κατηγορίες</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Theatre">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Θέατρο
+                                </label>
+                            </div>                       
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Music">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Μουσική
+                                </label>
+                            </div>                        
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Kids">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Κατάλληλο για παιδία
+                                </label>
+                            </div>                                                
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Food">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Φαγητό
+                                </label>
+                            </div>                    
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Cinema">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Σινεμά
+                                </label>
+                            </div>                        
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Dance">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Χορός
+                                </label>
+                            </div>                      
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Exhibition">
+                                <label class="form-check-label" for="Exhibition">
+                                    Έκθεση
+                                </label>
+                            </div>                      
+                            <div class="form-check" >
+                                <input class="form-check-input" type="checkbox" value="" id="Drinks">
+                                <label class="form-check-label" for="Drinks">
+                                    Ποτό
+                                </label>
+                            </div>                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color:#16874bf6" onclick="filterFunc();">Εντάξει</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div id = "UpcomingEvents" style="margin-top: 50px">
+            <% for(var i=0; i<allEvents.length; i++) {%>
+                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                    <div class="row g-0" id = "<%=allEvents[i].event_id%>" onclick="eventRedirect(this.id)">
+                        
+                        <div class="col-md-4">
+                            <img src="../<%=allEvents[i].event_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center; margin-top: 25px; margin-left: 25px;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><%=allEvents[i].event_title%></h5>
+                                <p class="card-text"><%=allEvents[i].description%></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" label for="date">
+                                    <date>Ημερομηνία: <%=allEvents[i].date.toDateString()%></date>
+                                </li>
+                                <li class="list-group-item" for="time">
+                                    <time>Ώρα: <%=allEvents[i].time%></time>
+                                <li class="list-group-item">Τοποθεσία: <%=allEvents[i].location_name%></li>                    
+                                <li class="list-group-item">Διοργανωτής: <%=allEvents[i].organiser_name%></li>
+                            </ul>
+                            <!-- <div class="card-body" >
+                                <a href="/eventprofile" class="stretched-link"></a>
+                            </div> -->
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            <% } %>
+        </div>
+
+        <div id = "InterestedId" style="margin-top: 50px; display: none;">
+            <% for(var j=0; j < interestedEvents.length; j++) {%>
+                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                    <div class="row g-0" id = "<%=interestedEvents[j].event_id%>" onclick="eventRedirect(this.id)">
+                        
+                        <div class="col-md-4">
+                            <img src="../<%=interestedEvents[j].event_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center; margin-top: 25px; margin-left: 25px;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><%=interestedEvents[j].event_title%></h5>
+                                <p class="card-text"><%=interestedEvents[j].description%></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" label for="date">
+                                    <date>Ημερομηνία: <%=interestedEvents[j].date.toDateString()%></date>
+                                </li>
+                                <li class="list-group-item" for="time">
+                                    <time>Ώρα: <%=interestedEvents[j].time%></time>
+                                <li class="list-group-item">Τοποθεσία: <%=interestedEvents[j].location_name%></li>                    
+                                <li class="list-group-item">Διοργανωτής: <%=interestedEvents[j].organiser_name%></li>
+                            </ul>                           
+                        </div>
+                        
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        
+                                   
+        <div id="FriendSuggestions" style= "display: none; margin-top: 50px">
+            <% for(var j=0; j <  invitedEvents.length; j++) {%>
+                <div class="card mb-3" style="max-width: 700px;margin: 0 auto;float: none;margin-bottom: 10px;">
+                    <div class="row g-0" id = "<%= invitedEvents[j].event_id%>" onclick="eventRedirect(this.id)">
+                        <div class="col-md-4">
+                            <img src="../<%=invitedEvents[j].event_photo%>" class="img-fluid rounded-start" style="width:200px; height:200px; align-self: center; margin-top: 25px; margin-left: 25px;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h4 class="card-title"><%= invitedEvents[j].event_title%></h4>
+                                <h5 class="card-title" style="color: rgb(44, 155, 10)">Σας έχουν προσκαλέσει <%= invitedEvents[j].count%> άτομα</h5>
+                                <p class="card-text"><%= invitedEvents[j].description%></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" label for="date">
+                                    <date>Ημερομηνία: <%= invitedEvents[j].date.toDateString()%></date>
+                                </li>
+                                <li class="list-group-item" for="time">
+                                    <time>Ώρα: <%= invitedEvents[j].time%></time>
+                                <li class="list-group-item">Τοποθεσία: <%= invitedEvents[j].location_name%></li>                    
+                                <li class="list-group-item">Διοργανωτής: <%= invitedEvents[j].organiser_name%></li>
+                            </ul>                          
+                        </div>
+                        
+                    </div>
+                </div>
+            <% } %>
+        </div>
+           
+    </body>
+
+    <script>
+
+        function visibility(idVisible, idInvisible1, idInvisible2){
+            document.getElementById(idVisible).style.display="block";
+            document.getElementById(idInvisible1).style.display="none";
+            document.getElementById(idInvisible2).style.display="none";
+        }
+
+
+        
+        function sendEventTitle(){
+            var title = document.getElementById("allEventsTitle")
+            var data={
+                "title": title.value,
+            }
+        
+            // Sending and receiving data in JSON format using POST method
+            var xhr = new XMLHttpRequest();
+            var url = "/getEventInfo";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(data.email + ", " + data.username + ", " + data.password);
+                }
+            };
+            var dataJSON = JSON.stringify({data});
+            xhr.send(dataJSON);
+            
+        };
+
+        function eventRedirect(arg){
+            
+            location.href = "/eventprofile/".concat(arg);
+        };
+
+        async function filterFunc(){
+            var theatre = document.getElementById("Theatre")
+            var music = document.getElementById("Music")
+            var kids = document.getElementById("Kids")
+            var food = document.getElementById("Food")
+            var cinema = document.getElementById("Cinema")
+            var dance = document.getElementById("Dance")
+            var exhibition = document.getElementById("Exhibition")
+            var drinks = document.getElementById("Drinks")
+            
+            var payload={
+                "theatre": theatre.checked,
+                "music": music.checked,
+                "kids": kids.checked,
+                "food": food.checked,
+                "cinema": cinema.checked,
+                "dance": dance.checked,
+                "exhibition": exhibition.checked,
+                "drinks": drinks.checked
+            }
+            
+            
+            let response = await fetch("/filteredevents",
+            {
+                method: "POST",
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }
+            })
+            .then(function(res){ return res.json(); })  
+           
+            Array.prototype.forEach.call(document.getElementsByClassName("row g-0"), function (event) {
+                event.parentElement.style.display = "none";
+            });
+   
+            Array.prototype.forEach.call(document.getElementsByClassName("row g-0"), function (event) {
+                for(var i in response)
+                    if(response[i] == event.id){
+                        event.parentElement.style.display = "block"; 
+                        break;
+                    }
+                
+            });        
+        };
+    </script>
+    
+</html>
